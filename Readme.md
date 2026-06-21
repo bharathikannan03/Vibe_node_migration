@@ -4,8 +4,8 @@
 
 Create the policies table before calling the API:
 
-```sql
-SOURCE src/migration/001-create-policies-table.sql;
+```bash
+npm run migrate
 ```
 
 Start the server:
