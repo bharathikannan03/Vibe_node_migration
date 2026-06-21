@@ -19,4 +19,12 @@ app.use("/api/policies", policyRouter);
 app.use(notFoundHandler);
 app.use(errorHandler);
 
+app.use(express.urlencoded({ extended: true }));
+
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "Vibe Node Migration API Running"
+  });
+});
 export default app;
