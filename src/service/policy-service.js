@@ -1,7 +1,9 @@
 import AppError from "../utils/app-error.js";
 import {
   createPolicy,
-  findPolicyById
+  findPolicyById,
+  findPolicyByNumber,
+  updatePolicy
 } from "../repositories/policy-repository.js";
 
 export const createPolicyService = async (policyPayload) => {
@@ -37,4 +39,14 @@ export const editPolicyService = async (policyId) => {
     throw new AppError("Policy not found", 404);
   }
   return filteredData;
+}
+
+export const updatePolicyService = async (policyId, updatePayload) => {
+  const existingPolicy = await findPolicyById(policyId);
+
+  if (!existingPolicy) {
+    throw new AppError("Policy not found", 404);
+  }
+
+  return updatePolicy(existingPolicy.id, updatePayload);
 }

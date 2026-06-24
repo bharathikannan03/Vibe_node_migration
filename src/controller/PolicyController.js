@@ -1,4 +1,4 @@
-import { createPolicyService, editPolicyService } from "../service/policy-service.js";
+import { createPolicyService, editPolicyService, updatePolicyService } from "../service/policy-service.js";
 import { sendSuccess } from "../utils/api-response.js";
 
 export const createPolicy = async (req, res, next) => {
@@ -16,6 +16,16 @@ export const editPolicy = async (req, res, next) => {
     const policy = await editPolicyService(req.params.id);
 
     return sendSuccess(res, 200, "Policy fetched successfully", policy);
+  } catch (error) {
+    return next(error);
+  }
+}
+
+export const updatePolicy = async (req, res, next) => {
+  try {
+    const policy = await updatePolicyService(req.params.id, req.body);
+
+    return sendSuccess(res, 200, "Policy updated successfully", policy);
   } catch (error) {
     return next(error);
   }

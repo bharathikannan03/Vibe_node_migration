@@ -111,3 +111,32 @@ export const validateCreatePolicy = (payload) => {
 
   return { value, errors };
 };
+
+export const validateUpdatePolicy = (payload) => {
+  const errors = [];
+  const value = {};
+
+  value.policyType = optionalString(payload, "policyType", "Policy type", 100, errors);
+  value.startDate = requiredDate(payload, "startDate", "Start date", errors);
+  value.endDate = requiredDate(payload, "endDate", "End date", errors);
+  value.holderName = optionalString(payload, "holderName", "Holder name", 150, errors);
+  value.holderEmail = optionalString(payload, "holderEmail", "Holder email", 150, errors);
+  value.status = optionalString(payload, "status", "Status", 20, errors);
+
+  if (value.holderEmail && !validateEmail(value.holderEmail)) {
+    errors.push({ field: "holderEmail", message: "Holder email must be valid" });
+  }
+
+  if (value.status && !POLICY_STATUSES.includes(value.status)) {
+    errors.push({
+      field: "status",
+      message: `Status must be one of: ${POLICY_STATUSES.join(", ")}`
+    });
+  }
+
+  if (value.startDate && value.endDate && new Date(value.endDate) < new Date(value.startDate)) {
+    errors.push({ field: "endDate", message: "End date must be on or after start date" });
+  }
+
+  return { value, errors };
+};

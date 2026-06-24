@@ -67,3 +67,29 @@ export const createPolicy = async (policy) => {
 
   return findPolicyById(result.insertId);
 };
+
+export const updatePolicy = async (policyId, updateData) => {
+  await db.execute(
+    `UPDATE policies
+     SET policy_type = ?,
+         start_date = ?,
+         end_date = ?,
+         holder_name = ?,
+         holder_email = ?,
+         status = ?
+     WHERE id = ?`,
+    [
+      updateData.policyType,
+      updateData.startDate,
+      updateData.endDate,
+      updateData.holderName,
+      updateData.holderEmail,
+      updateData.status,
+      policyId
+    ]
+  );
+
+  return findPolicyById(policyId);
+};
+
+
