@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS policies (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  policy_number VARCHAR(50) NOT NULL,
+  policy_name VARCHAR(150) NOT NULL,
+  policy_type VARCHAR(100) NOT NULL,
+  premium_amount DECIMAL(12, 2) NOT NULL,
+  coverage_amount DECIMAL(12, 2) NOT NULL,
+  start_date DATE NOT NULL,
+  end_date DATE NOT NULL,
+  holder_name VARCHAR(150) NOT NULL,
+  holder_email VARCHAR(150) NULL,
+  status ENUM('active', 'inactive', 'expired', 'cancelled') NOT NULL DEFAULT 'active',
+  description TEXT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY uk_policies_policy_number (policy_number),
+  KEY idx_policies_status (status),
+  KEY idx_policies_holder_email (holder_email)
+);
