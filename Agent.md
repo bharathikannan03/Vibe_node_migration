@@ -268,5 +268,10 @@ A task is complete when:
 * Documentation is updated.
 * No sensitive information is exposed.
 
+---
+
+## Update the Progress.md file
+Once the task is completed, update the Progress.md file with the completion details, including the prompt used and the corresponding result.
+
 ```
 ```

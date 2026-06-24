@@ -14,7 +14,8 @@ const toPolicy = (row) => ({
   status: row.status,
   description: row.description,
   createdAt: row.created_at,
-  updatedAt: row.updated_at
+  updatedAt: row.updated_at,
+  deletedAt: row.deleted_at
 });
 
 export const findPolicyByNumber = async (policyNumber) => {
@@ -28,7 +29,7 @@ export const findPolicyByNumber = async (policyNumber) => {
 
 export const findPolicyById = async (policyId) => {
   const [rows] = await db.execute(
-    "SELECT * FROM policies WHERE id = ? LIMIT 1",
+    "SELECT * FROM policies WHERE id = ? AND deleted_at IS NULL LIMIT 1",
     [policyId]
   );
 
@@ -66,4 +67,41 @@ export const createPolicy = async (policy) => {
   );
 
   return findPolicyById(result.insertId);
+};
+
+export const updatePolicy = async (policyId, updateData) => {
+  await db.execute(
+    `UPDATE policies
+     SET policy_type = ?,
+         start_date = ?,
+         end_date = ?,
+         holder_name = ?,
+         holder_email = ?,
+         status = ?
+     WHERE id = ?
+       AND deleted_at IS NULL`,
+    [
+      updateData.policyType,
+      updateData.startDate,
+      updateData.endDate,
+      updateData.holderName,
+      updateData.holderEmail,
+      updateData.status,
+      policyId
+    ]
+  );
+
+  return findPolicyById(policyId);
+};
+
+export const softDeletePolicy = async (policyId) => {
+  const [result] = await db.execute(
+    `UPDATE policies
+     SET deleted_at = CURRENT_TIMESTAMP
+     WHERE id = ?
+       AND deleted_at IS NULL`,
+    [policyId]
+  );
+
+  return result.affectedRows;
 };
