@@ -4,6 +4,7 @@ import policyRouter from "../route/policy-route.js";
 import roleAccessRouter from "../route/role-access-route.js";
 import policyEscalationRouter from "../route/policy-escalation-route.js";
 import policyDocumentRouter from "../route/policy-document-route.js";
+import cashlessHospitalRouter from "../route/cashless-hospital-route.js";
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use("/api/updatepolicies", policyRouter);
 app.use("/api/deletepolicies", policyRouter);
 app.use("/api", policyEscalationRouter);
 app.use("/api", policyDocumentRouter);
+app.use("/api", cashlessHospitalRouter);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
