@@ -17,6 +17,7 @@ app.get("/health", (req, res) => {
 app.use("/api/policies", policyRouter);
 app.use("/api/edit", policyRouter);
 app.use("/api/updatepolicies", policyRouter);
+app.use("/api/deletepolicies", policyRouter);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
