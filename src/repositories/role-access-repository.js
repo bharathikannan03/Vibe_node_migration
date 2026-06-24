@@ -51,3 +51,31 @@ export const findAllModuleDetails = async () => {
   );
   return rows;
 };
+
+export const createRole = async (connection, roleName) => {
+  const [result] = await connection.execute(
+    `INSERT INTO md_visibility_role_id_feature_tmps (role, is_visible, created_at, updated_at)
+     VALUES (?, 2, NOW(), NOW())`,
+    [roleName]
+  );
+  return result.insertId;
+};
+
+export const createRoleAccessMappings = async (connection, roleId, mappings) => {
+  if (mappings.length === 0) return;
+
+  const placeholders = mappings.map(() => "(?, ?, ?, ?, NOW(), NOW())").join(", ");
+  const values = mappings.flatMap((m) => [
+    roleId,
+    m.module_id,
+    m.module_option_id,
+    m.selection_status
+  ]);
+
+  await connection.execute(
+    `INSERT INTO trn_mapping_roleid_roleaccessdetails
+     (role_id, module_id, module_option_id, selection_status, created_at, updated_at)
+     VALUES ${placeholders}`,
+    values
+  );
+};

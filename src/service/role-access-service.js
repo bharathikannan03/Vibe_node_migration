@@ -3,8 +3,11 @@ import {
   findCorporateNamesByRoleId,
   findRoleAccessMappings,
   findAllModuleDetails,
-  existsRoleByName
+  existsRoleByName,
+  createRole,
+  createRoleAccessMappings
 } from "../repositories/role-access-repository.js";
+import db from "../config/database.js";
 import AppError from "../utils/app-error.js";
 
 const SYSTEM_ROLE_IDS = [1, 2, 3, 6, 7, 8, 9];
@@ -109,4 +112,44 @@ export const verifyRoleNameService = async (roleName) => {
   }
 
   return { message: "Role Name Verified" };
+};
+
+export const createRoleAccessModuleService = async (payload) => {
+  const connection = await db.getConnection();
+
+  try {
+    await connection.beginTransaction();
+
+    const roleId = await createRole(connection, payload.role);
+
+    const mappings = [];
+    if (payload.modules && payload.modules.length > 0) {
+      for (const module of payload.modules) {
+        const moduleId = module.module_id;
+        const optionIds = module.module_option_ids || [];
+        const selectionStatuses = module.selection_status || [];
+
+        for (let i = 0; i < optionIds.length; i++) {
+          mappings.push({
+            module_id: moduleId,
+            module_option_id: optionIds[i],
+            selection_status: selectionStatuses[i] ?? null
+          });
+        }
+      }
+    }
+
+    if (mappings.length > 0) {
+      await createRoleAccessMappings(connection, roleId, mappings);
+    }
+
+    await connection.commit();
+
+    return { message: "Role module access created successfully." };
+  } catch (error) {
+    await connection.rollback();
+    throw error;
+  } finally {
+    connection.release();
+  }
 };
