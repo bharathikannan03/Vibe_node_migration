@@ -13,7 +13,12 @@ Start the server:
 ```bash
 npm start
 ```
-
+```bash
+node -e "console.log(require('crypto').randomBytes(64).toString('hex'))" --- to create a JWT_SECRET for .env
+```
+```bash
+npm run seed:users   --to run the seeder for create initial user.
+```
 ### POST `/api/policies`
 
 Request body:
@@ -42,4 +47,61 @@ Success response:
   "message": "Policy created successfully",
   "data": {}
 }
+```
+## JWT Login API
+
+Run migrations before testing locally so the development `users` table exists:
+
+```bash
+npm run migrate
+```
+
+Set these environment variables:
+
+```env
+JWT_SECRET=replace_with_a_long_random_secret
+JWT_EXPIRES_IN=1d
+```
+
+### POST `/api/auth/login`
+
+Request body:
+
+```json
+{
+  "email": "admin@example.com",
+  "password": "password"
+}
+```
+
+You can also send `identifier` or `username` instead of `email`.
+
+Success response:
+
+```json
+{
+  "success": true,
+  "message": "Login successful",
+  "data": {
+    "token": "jwt-token",
+    "tokenType": "Bearer",
+    "expiresIn": "1d",
+    "user": {}
+  }
+}
+```
+
+## User Seeder
+
+Seed the default admin user after running migrations:
+
+```bash
+npm run seed:users
+```
+
+Default seeded credentials:
+
+```text
+Email: admin@gmail.com
+Password: admin@123
 ```

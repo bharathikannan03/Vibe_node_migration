@@ -10,9 +10,9 @@ import { validateCreatePolicy, validateUpdatePolicy } from "../validators/policy
 
 const router = Router();
 
-router.post("/", validateRequest(validateCreatePolicy), createPolicy);
-router.get("/:id", editPolicy);
-router.put("/:id", validateRequest(validateUpdatePolicy), updatePolicy);
-router.delete("/:id", deletePolicy);
+router.post("/create/", validateRequest(validateCreatePolicy), createPolicy);
+router.get("/edit/:id", editPolicy);
+router.put("/updatepolicies/:id", validateRequest(validateUpdatePolicy), updatePolicy);
+router.delete("/deletepolicies/:id", deletePolicy);
 
 export default router;
