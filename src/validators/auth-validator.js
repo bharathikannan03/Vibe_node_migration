@@ -39,3 +39,11 @@ export const validateLogin = (payload = {}) => {
   return { value, errors };
 };
 
+export const validateRefreshToken = (payload = {}) => {
+  const errors = [];
+  const value = {};
+
+  value.refreshToken = requiredString(payload, "refreshToken", "Refresh token", 4096, errors);
+
+  return { value, errors };
+};

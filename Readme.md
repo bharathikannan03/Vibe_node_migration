@@ -13,12 +13,15 @@ Start the server:
 ```bash
 npm start
 ```
+
 ```bash
 node -e "console.log(require('crypto').randomBytes(64).toString('hex'))" --- to create a JWT_SECRET for .env
 ```
+
 ```bash
 npm run seed:users   --to run the seeder for create initial user.
 ```
+
 ### POST `/api/policies`
 
 Request body:
@@ -48,6 +51,7 @@ Success response:
   "data": {}
 }
 ```
+
 ## JWT Login API
 
 Run migrations before testing locally so the development `users` table exists:
@@ -61,6 +65,8 @@ Set these environment variables:
 ```env
 JWT_SECRET=replace_with_a_long_random_secret
 JWT_EXPIRES_IN=1d
+JWT_REFRESH_SECRET=replace_with_a_different_long_random_secret
+JWT_REFRESH_EXPIRES_IN=7d
 ```
 
 ### POST `/api/auth/login`
@@ -83,10 +89,43 @@ Success response:
   "success": true,
   "message": "Login successful",
   "data": {
-    "token": "jwt-token",
+    "token": "access-jwt-token",
     "tokenType": "Bearer",
     "expiresIn": "1d",
+    "refreshToken": "refresh-jwt-token",
+    "refreshTokenType": "Bearer",
+    "refreshTokenExpiresIn": "7d",
     "user": {}
+  }
+}
+```
+
+Use the access token on protected routes:
+
+```http
+Authorization: Bearer access-jwt-token
+```
+
+### POST `/api/auth/refresh-token`
+
+Request body:
+
+```json
+{
+  "refreshToken": "refresh-jwt-token"
+}
+```
+
+Success response:
+
+```json
+{
+  "success": true,
+  "message": "Token refreshed successfully",
+  "data": {
+    "token": "new-access-jwt-token",
+    "tokenType": "Bearer",
+    "expiresIn": "1d"
   }
 }
 ```

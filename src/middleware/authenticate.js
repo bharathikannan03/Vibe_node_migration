@@ -14,7 +14,13 @@ const authenticate = (req, res, next) => {
       throw new AppError("JWT secret is not configured", 500);
     }
 
-    req.user = jwt.verify(token, process.env.JWT_SECRET);
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (decodedToken.tokenType && decodedToken.tokenType !== "access") {
+      throw new AppError("Invalid authentication token", 401);
+    }
+
+    req.user = decodedToken;
     return next();
   } catch (error) {
     if (error.name === "JsonWebTokenError" || error.name === "TokenExpiredError") {
