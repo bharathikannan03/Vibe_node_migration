@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS md_role_accessdetails (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  module_id INT DEFAULT NULL,
+  module_name VARCHAR(255) DEFAULT NULL,
+  module_option_id INT DEFAULT NULL,
+  module_option_name VARCHAR(255) DEFAULT NULL,
+  status INT NOT NULL DEFAULT '0',
+  created_at TIMESTAMP NULL DEFAULT NULL,
+  updated_at TIMESTAMP NULL DEFAULT NULL,
+  deleted_at TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (id)
+);

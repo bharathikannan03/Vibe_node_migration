@@ -1,0 +1,17 @@
+CREATE TABLE IF NOT EXISTS master_escalation_matrices (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  fullname VARCHAR(150) DEFAULT NULL,
+  phone_number VARCHAR(15) DEFAULT NULL,
+  mobile_number VARCHAR(15) DEFAULT NULL,
+  email_id VARCHAR(50) DEFAULT NULL,
+  alt_email_id VARCHAR(50) DEFAULT NULL,
+  send_mail_alt_email TINYINT(1) DEFAULT NULL,
+  company_fulladdress TEXT,
+  type VARCHAR(30) DEFAULT NULL,
+  type_id INT DEFAULT NULL,
+  status INT NOT NULL DEFAULT '0',
+  created_at TIMESTAMP NULL DEFAULT NULL,
+  updated_at TIMESTAMP NULL DEFAULT NULL,
+  deleted_at TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (id)
+);
