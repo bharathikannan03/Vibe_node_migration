@@ -11,6 +11,8 @@ description: Use when adding or editing Nango database migrations - covers migra
 * Avoid raw queries unless necessary.
 * Always use transactions for multi-step operations.
 * Add indexes for frequently queried fields.
+* When creating any database table, include a nullable `deleted_at` column for soft delete support.
+* Active-record queries should filter `deleted_at IS NULL` unless the API intentionally needs deleted records.
 
 1. Identify the right migration directory.
    - Main database migrations live in `src/migration/`.
@@ -46,3 +48,5 @@ description: Use when adding or editing Nango database migrations - covers migra
 - [ ] Style matches recent migrations in the same directory.
 - [ ] `exports.down` behavior was confirmed or explicitly requested.
 - [ ] Foreign keys use `CASCADE` for ownership and `SET NULL` for optional references.
+- [ ] New tables include a nullable `deleted_at` column for soft delete support.
+

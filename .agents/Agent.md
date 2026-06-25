@@ -125,6 +125,11 @@ USER_STATUS_ACTIVE
 * 404 → Not Found
 * 500 → Internal Server Error
 
+### Delete APIs
+
+* When creating a delete API, use soft delete by setting `deleted_at` instead of physically deleting the row.
+* Fetch, edit, update, and list APIs should exclude soft-deleted records by default using `deleted_at IS NULL`.
+
 ---
 
 ## Error Handling
