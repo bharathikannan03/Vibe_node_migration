@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS master_escalation_matrices (
   alt_email_id VARCHAR(50) DEFAULT NULL,
   send_mail_alt_email TINYINT(1) DEFAULT NULL,
   company_fulladdress TEXT,
-  type VARCHAR(30) DEFAULT NULL,
+  `type` VARCHAR(30) DEFAULT NULL,
   type_id INT DEFAULT NULL,
   status INT NOT NULL DEFAULT '0',
   created_at TIMESTAMP NULL DEFAULT NULL,
