@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS master_cashlesshospital_upload_errors (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   ref_doc_id INT NOT NULL,
-  row INT NOT NULL,
+  `row` INT NOT NULL,
   column_name VARCHAR(100) NOT NULL,
   errors VARCHAR(100) NOT NULL,
   status INT NOT NULL DEFAULT '0',
