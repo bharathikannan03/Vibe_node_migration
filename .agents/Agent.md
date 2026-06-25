@@ -145,10 +145,9 @@ throw new AppError("User not found", 404);
 
 ### Rules
 
-* Use repositories for all database access.
-* Avoid raw queries unless necessary.
-* Always use transactions for multi-step operations.
-* Add indexes for frequently queried fields.
+* Use the `creating-database-migrations` skill when adding or editing database migrations.
+* Skill file: `.agents/skills/creating-database-migrations/SKILL.md`.
+* Before migration work, read the skill instructions and follow its workflow/checklist for migration directory selection, naming, rollback decisions, indexes, transactions, and foreign key delete behavior.
 
 ---
 
@@ -275,3 +274,4 @@ Once the task is completed, update the Progress.md file with the completion deta
 
 ```
 ```
+
